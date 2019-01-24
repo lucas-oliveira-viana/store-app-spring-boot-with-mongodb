@@ -1,4 +1,4 @@
-package com.lucas.loja.exception;
+package com.lucas.loja.exception.compra;
 
 public class ProdutoNotFoundException extends RuntimeException {
 	private static final long serialVersionUID = 1L;

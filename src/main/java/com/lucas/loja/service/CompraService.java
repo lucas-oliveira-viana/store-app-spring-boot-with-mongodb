@@ -13,9 +13,9 @@ import com.lucas.loja.domain.Endereco;
 import com.lucas.loja.domain.Funcionario;
 import com.lucas.loja.domain.produto.ProdutoComprado;
 import com.lucas.loja.domain.produto.ProdutoEmEstoque;
-import com.lucas.loja.exception.ProdutoNotFoundException;
 import com.lucas.loja.exception.compra.CompraNotFoundException;
 import com.lucas.loja.exception.compra.InsufficientEstoqueException;
+import com.lucas.loja.exception.compra.ProdutoNotFoundException;
 import com.lucas.loja.repository.ClienteRepository;
 import com.lucas.loja.repository.CompraProdutoRepository;
 import com.lucas.loja.repository.CompraRepository;
@@ -87,7 +87,11 @@ public class CompraService {
 			throw new InsufficientEstoqueException("Existem apenas " + quantidadeDoProdutoEmEstoque + " unidades" + " de " + produtoComprado.getNome() + " no estoque!");
 		}
 		produtoCompradoEmEstoque.setEstoque(quantidadeDoProdutoEmEstoque -= quantidadeProdutoComprada);
-		estoqueRepository.save(produtoCompradoEmEstoque);
+		atualizarEstoque(produtoCompradoEmEstoque);
+	}
+	
+	private void atualizarEstoque(ProdutoEmEstoque produtoEmEstoque) {
+		estoqueRepository.save(produtoEmEstoque);
 	}
 
 	private void definirValorTotal(Compra compra) {
