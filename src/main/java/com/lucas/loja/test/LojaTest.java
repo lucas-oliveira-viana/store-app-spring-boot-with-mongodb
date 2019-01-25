@@ -1,8 +1,5 @@
 package com.lucas.loja.test;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
@@ -16,10 +13,7 @@ public class LojaTest {
 	public void testSalvarNoEstoque() {
 		CompraService service = new CompraService();
 		
-		List<ProdutoEmEstoque> produtosEmEstoque = new ArrayList<>();
-		produtosEmEstoque.add(new ProdutoEmEstoque("123as", "Arroz", 13.00, "1452758", 10));
-		
-		Assert.assertEquals("a", service.saveProdutoNoEstoque(produtosEmEstoque));
+		Assert.assertEquals("a", service.saveProdutoNoEstoque(new ProdutoEmEstoque("123as", "Arroz", 13.00, "1452758", 10)));
 	}
 	
 //	@Test

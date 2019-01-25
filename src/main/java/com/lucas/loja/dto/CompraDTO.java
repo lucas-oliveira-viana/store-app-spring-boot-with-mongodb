@@ -11,7 +11,6 @@ public class CompraDTO {
 	
 	private String id;
 	private List<ProdutoComprado> produtosComprados;
-	private Integer quantidade;
 	private Cliente cliente;
 	private Funcionario funcionario;
 	private String formaPagamento;
@@ -43,14 +42,6 @@ public class CompraDTO {
 
 	public void setProdutosComprados(List<ProdutoComprado> produto) {
 		this.produtosComprados = produto;
-	}
-
-	public Integer getQuantidade() {
-		return quantidade;
-	}
-
-	public void setQuantidade(Integer quantidade) {
-		this.quantidade = quantidade;
 	}
 
 	public Cliente getCliente() {

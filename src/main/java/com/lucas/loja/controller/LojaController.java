@@ -41,22 +41,24 @@ public class LojaController {
 	
 	@GetMapping(value = "/consultarestoque")
 	public ResponseEntity<List<ProdutoEmEstoqueDTO>> listarTodoEstoque(){
-		List<ProdutoEmEstoque> produtoEmEstoque = compraService.findAllEstoqueProdutos();
+		List<ProdutoEmEstoque> produtoEmEstoque = compraService.findAllProdutosEmEstoque();
 		List<ProdutoEmEstoqueDTO> dto = produtoEmEstoque.stream().map(produto -> new ProdutoEmEstoqueDTO(produto)).collect(Collectors.toList());
 		return ResponseEntity.ok().body(dto);
 	}
 	
-	@GetMapping(value = "/{id}")
+	@GetMapping(value = "/compra/{id}")
 	public ResponseEntity<CompraDTO> listaCompraById(@PathVariable String id){
 		Compra compra = compraService.findComprasById(id);
 		return ResponseEntity.ok().body(new CompraDTO(compra));
 	}
 	
 	@PostMapping(value = "/cadastrarproduto")
-	public ResponseEntity<List<ProdutoEmEstoque>> cadastrarProduto(@RequestBody List<ProdutoEmEstoqueDTO> produtoEmEstoqueDTO){
-		List<ProdutoEmEstoque> produto = produtoEmEstoqueDTO.stream().map(prod -> fromDTO.fromDTOProdutoEmEstoque(prod)).collect(Collectors.toList());
-		compraService.saveProdutoNoEstoque(produto);
-		return ResponseEntity.ok().body(produto);
+	public ResponseEntity<List<ProdutoEmEstoque>> cadastrarProduto(@RequestBody List<ProdutoEmEstoqueDTO> produtoParaSerCadastradoDTO){
+		List<ProdutoEmEstoque> ProdutosParaSeremCadastrados = produtoParaSerCadastradoDTO.stream().map(prod -> fromDTO.fromDTOProdutoEmEstoque(prod)).collect(Collectors.toList());
+		for (ProdutoEmEstoque produtoParaSerCadastrado : ProdutosParaSeremCadastrados) {
+			compraService.saveProdutoNoEstoque(produtoParaSerCadastrado);
+		}
+		return ResponseEntity.ok().body(ProdutosParaSeremCadastrados);
 	}
 	
 	@PostMapping(value = "/cadastrarfuncionario")
@@ -69,7 +71,7 @@ public class LojaController {
 	@PostMapping(value = "/realizarcompra")
 	public ResponseEntity<Compra> realizarCompra(@RequestBody CompraDTO compraDTO){
 		Compra compra = fromDTO.fromDTOCompra(compraDTO);
-		compraService.insertCompras(compra);
+		compraService.insertCompra(compra);
 		return ResponseEntity.ok().body(compra);
 	}
 
@@ -79,11 +81,19 @@ public class LojaController {
 		return ResponseEntity.ok().body("A Compra do id: " + id + " foi excluída");
 	}
 	
-	@PutMapping(value = "/{id}")
-	public ResponseEntity<String> updateCompra(@RequestBody CompraDTO compraDTO, @PathVariable String id){
-		Compra compra = fromDTO.fromDTOCompra(compraDTO);
-		compra.setId(id);
-		compraService.updateCompra(compra);
-		return ResponseEntity.ok().body("A compra de: " + compra.getCliente().getNome() + " foi atualizada com sucesso!");
+	@PutMapping(value = "/atualizarcompra/{id}")
+	public ResponseEntity<String> updateCompra(@RequestBody CompraDTO compraAtualizadaDTO, @PathVariable String id){
+		Compra compraAtualizada = fromDTO.fromDTOCompra(compraAtualizadaDTO);
+		compraAtualizada.setId(id);
+		compraService.updateCompra(compraAtualizada);
+		return ResponseEntity.ok().body("A compra de: " + compraAtualizada.getCliente().getNome() + " foi atualizada com sucesso!");
+	}
+	
+	@PutMapping(value = "/atualizarestoque/{id}")
+	public ResponseEntity<String> updateEstoque(@RequestBody ProdutoEmEstoqueDTO produtoEmEstoqueDTO, @PathVariable String id){
+		ProdutoEmEstoque produtoEmEstoqueAtualizado = fromDTO.fromDTOProdutoEmEstoque(produtoEmEstoqueDTO);
+		produtoEmEstoqueAtualizado.setId(id);
+		compraService.updateProdutoEmEstoque(produtoEmEstoqueAtualizado);
+		return ResponseEntity.ok().body("O produto: " + produtoEmEstoqueAtualizado.getNome() + " foi atualizado com sucesso!");
 	}
 }

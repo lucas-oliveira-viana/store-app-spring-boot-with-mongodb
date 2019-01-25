@@ -26,10 +26,10 @@ public class Compra {
 	
 	private Double valorTotal;
 	
-	public Compra(String id, List<ProdutoComprado> produto, Cliente cliente,
+	public Compra(String id, List<ProdutoComprado> produtosComprados, Cliente cliente,
 			Funcionario funcionario, String formaPagamento) {
 		this.id = id;
-		this.produtosComprados = produto;
+		this.produtosComprados = produtosComprados;
 		this.cliente = cliente;
 		this.funcionario = funcionario;
 		this.formaPagamento = formaPagamento;
