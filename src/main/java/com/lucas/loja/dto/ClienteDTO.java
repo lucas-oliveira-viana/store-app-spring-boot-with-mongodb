@@ -11,6 +11,7 @@ public class ClienteDTO {
 	private String nome;
 	private Date dataNascimento;
 	private String cpf;
+	private String rg;
 	private String email;
 	private String telefone;
 	private Endereco endereco;
@@ -19,12 +20,16 @@ public class ClienteDTO {
 		id = cliente.getId();
 		nome = cliente.getNome();
 		dataNascimento = cliente.getDataNascimento();
-		cpf = cliente.getCpf();
+		cpf = cliente.getCPF();
+		cpf = cliente.getRG();
 		email = cliente.getEmail();
 		telefone = cliente.getTelefone();
 		endereco = cliente.getEndereco();
 	}
 
+	public ClienteDTO() {
+	}
+	
 	public String getId() {
 		return id;
 	}
@@ -55,6 +60,14 @@ public class ClienteDTO {
 
 	public void setCpf(String cpf) {
 		this.cpf = cpf;
+	}
+
+	public String getRg() {
+		return rg;
+	}
+
+	public void setRg(String rg) {
+		this.rg = rg;
 	}
 
 	public String getEmail() {

@@ -4,14 +4,14 @@ import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
 import com.lucas.loja.domain.produto.ProdutoEmEstoque;
-import com.lucas.loja.service.CompraService;
+import com.lucas.loja.service.EstoqueService;
 
 
 public class LojaTest {
 
 	@Test
 	public void testSalvarNoEstoque() {
-		CompraService service = new CompraService();
+		EstoqueService service = new EstoqueService();
 		
 		Assert.assertEquals("a", service.saveProdutoNoEstoque(new ProdutoEmEstoque("123as", "Arroz", 13.00, "1452758", 10)));
 	}

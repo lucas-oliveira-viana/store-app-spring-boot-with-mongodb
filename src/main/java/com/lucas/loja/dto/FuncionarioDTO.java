@@ -24,8 +24,8 @@ public class FuncionarioDTO{
 		this.id = funcionario.getId();
 		this.nome = funcionario.getNome();
 		this.dataNascimento = funcionario.getDataNascimento();
-		this.cpf = funcionario.getCpf();
-		this.setRg(funcionario.getRg());
+		this.cpf = funcionario.getCPF();
+		this.setRg(funcionario.getRG());
 		this.email = funcionario.getEmail();
 		this.telefone = funcionario.getTelefone();
 		this.endereco = funcionario.getEndereco();

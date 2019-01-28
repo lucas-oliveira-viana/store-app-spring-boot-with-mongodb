@@ -42,7 +42,7 @@ public abstract class Pessoa {
 		this.dataNascimento = dataNascimento;
 	}
 
-	public String getCpf() {
+	public String getCPF() {
 		return cpf;
 	}
 
@@ -74,7 +74,7 @@ public abstract class Pessoa {
 		this.endereco = endereco;
 	}
 
-	public String getRg() {
+	public String getRG() {
 		return rg;
 	}
 
