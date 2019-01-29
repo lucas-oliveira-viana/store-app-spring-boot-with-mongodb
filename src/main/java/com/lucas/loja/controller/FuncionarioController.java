@@ -1,5 +1,7 @@
 package com.lucas.loja.controller;
 
+import static com.lucas.loja.dto.fromdto.FromDTO.fromDTOFuncionario;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -16,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.lucas.loja.domain.Funcionario;
 import com.lucas.loja.dto.FuncionarioDTO;
-import com.lucas.loja.dto.fromdto.FromDTO;
 import com.lucas.loja.service.FuncionarioService;
 
 @RestController
@@ -25,8 +26,6 @@ public class FuncionarioController {
 
 	@Autowired
 	private FuncionarioService funcionarioService;
-
-	private FromDTO fromDTO;
 	
 	@GetMapping(value = "/consulta")
 	public ResponseEntity<List<FuncionarioDTO>> listarFuncionarios(){
@@ -37,7 +36,7 @@ public class FuncionarioController {
 	
 	@PostMapping(value = "/cadastro")
 	public ResponseEntity<Funcionario> cadastrarFuncionario(@RequestBody FuncionarioDTO funcionarioDTO) {
-		Funcionario funcionario = fromDTO.fromDTOFuncionario(funcionarioDTO);
+		Funcionario funcionario = fromDTOFuncionario(funcionarioDTO);
 		funcionarioService.saveFuncionario(funcionario);
 		return ResponseEntity.ok().body(funcionario);
 	}
@@ -50,7 +49,7 @@ public class FuncionarioController {
 	
 	@PutMapping(value = "atualizar/{id}")
 	public ResponseEntity<String> updateFuncionario(@RequestBody FuncionarioDTO funcionarioDTO, @PathVariable String id){
-		Funcionario funcionarioAtualizado = fromDTO.fromDTOFuncionario(funcionarioDTO);
+		Funcionario funcionarioAtualizado = fromDTOFuncionario(funcionarioDTO);
 		funcionarioAtualizado.setId(id);
 		funcionarioService.updateFuncionario(funcionarioAtualizado);
 		return ResponseEntity.ok().body("O cadastro de: " + funcionarioAtualizado.getNome() + "foi atualizado com sucesso!");

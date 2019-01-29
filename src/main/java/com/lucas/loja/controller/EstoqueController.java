@@ -1,5 +1,7 @@
 package com.lucas.loja.controller;
 
+import static com.lucas.loja.dto.fromdto.FromDTO.fromDTOProdutoEmEstoque;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -16,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.lucas.loja.domain.produto.ProdutoEmEstoque;
 import com.lucas.loja.dto.ProdutoEmEstoqueDTO;
-import com.lucas.loja.dto.fromdto.FromDTO;
 import com.lucas.loja.service.EstoqueService;
 
 @RestController
@@ -25,8 +26,6 @@ public class EstoqueController {
 	
 	@Autowired
 	private EstoqueService estoqueService;
-	
-	private FromDTO fromDTO;
 
 	@GetMapping(value = "/consulta")
 	public ResponseEntity<List<ProdutoEmEstoqueDTO>> listarTodoEstoque() {
@@ -41,7 +40,7 @@ public class EstoqueController {
 	public ResponseEntity<List<ProdutoEmEstoque>> cadastrarProduto(@RequestBody List<ProdutoEmEstoqueDTO> produtoParaSerCadastradoDTO) {
 		
 		List<ProdutoEmEstoque> ProdutosParaSeremCadastrados = produtoParaSerCadastradoDTO.stream()
-				.map(prod -> fromDTO.fromDTOProdutoEmEstoque(prod)).collect(Collectors.toList());
+				.map(prod -> fromDTOProdutoEmEstoque(prod)).collect(Collectors.toList());
 		
 		salvarCadaProdutoNoEstoque(ProdutosParaSeremCadastrados);
 		return ResponseEntity.ok().body(ProdutosParaSeremCadastrados);
@@ -56,7 +55,7 @@ public class EstoqueController {
 	@PutMapping(value = "/atualizar/{id}")
 	public ResponseEntity<String> updateEstoque(@RequestBody ProdutoEmEstoqueDTO produtoEmEstoqueDTO,
 			@PathVariable String id) {
-		ProdutoEmEstoque produtoEmEstoqueAtualizado = fromDTO.fromDTOProdutoEmEstoque(produtoEmEstoqueDTO);
+		ProdutoEmEstoque produtoEmEstoqueAtualizado = fromDTOProdutoEmEstoque(produtoEmEstoqueDTO);
 		produtoEmEstoqueAtualizado.setId(id);
 		estoqueService.updateProdutoEmEstoque(produtoEmEstoqueAtualizado);
 		return ResponseEntity.ok().body("O produto: " + produtoEmEstoqueAtualizado.getNome() + " foi atualizado com sucesso!");

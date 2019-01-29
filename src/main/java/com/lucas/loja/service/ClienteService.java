@@ -1,7 +1,6 @@
 package com.lucas.loja.service;
 
-import static com.lucas.loja.controller.utils.Validators.validarCPF;
-import static com.lucas.loja.controller.utils.Validators.validarRG;
+import static com.lucas.loja.service.validators.Validator.CLIENTE;
 
 import java.util.List;
 import java.util.Optional;
@@ -10,9 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.lucas.loja.domain.Cliente;
-import com.lucas.loja.exception.cliente.ClienteAlreadyExistsException;
 import com.lucas.loja.exception.cliente.ClienteNotFoundException;
 import com.lucas.loja.repository.ClienteRepository;
+import com.lucas.loja.service.validators.Validator;
 
 @Service
 public class ClienteService {
@@ -20,20 +19,30 @@ public class ClienteService {
 	@Autowired
 	private ClienteRepository clienteRepository;
 	
+	@Autowired
+	private Validator validator;
+	
 	public List<Cliente> findAllClientes(){
 		return clienteRepository.findAll();
 	}
 	
 	public Cliente findClienteById(String id) {
 		Optional<Cliente> cliente = clienteRepository.findById(id);
-		return cliente.orElseThrow(() -> new ClienteNotFoundException("Funcionario não encontrado"));
+		return cliente.orElseThrow(() -> new ClienteNotFoundException("Cliente não encontrado"));
 	}
 	
 	public Cliente saveCliente(Cliente cliente) {
-		verificaSeClienteJaExiste(cliente);
-		validarCPF(cliente.getCPF());
-		validarRG(cliente.getRG());
+		passarPorValidacoes(cliente);
 		return clienteRepository.save(cliente);
+	}
+
+	private void passarPorValidacoes(Cliente cliente) {
+		validator.verificaSeUsuarioJaExiste(cliente.getEmail(), CLIENTE);
+		validator.verificaSeTemIdadeMinima(cliente.getDataNascimento());
+		validator.verificaSeCPFJaExiste(cliente.getCPF(), CLIENTE);
+		validator.verificaSeRGJaExiste(cliente.getRG(), CLIENTE);
+		validator.validarCPF(cliente.getCPF());
+		validator.validarRG(cliente.getRG());
 	}
 
 	public void deleteCliente(String id) {
@@ -43,7 +52,7 @@ public class ClienteService {
 	public void updateCliente(Cliente clienteAtualizado) {
 		Cliente clienteAntigo = findClienteById(clienteAtualizado.getId());
 		updateDataCliente(clienteAntigo, clienteAtualizado);
-		clienteRepository.save(clienteAntigo);
+		saveCliente(clienteAntigo);
 	}
 
 	private void updateDataCliente(Cliente clienteAntigo, Cliente clienteAtualizado) {
@@ -54,11 +63,5 @@ public class ClienteService {
 		clienteAntigo.setEmail(clienteAtualizado.getEmail());
 		clienteAntigo.setTelefone(clienteAtualizado.getTelefone());
 		clienteAntigo.setEndereco(clienteAtualizado.getEndereco());
-	}
-	
-	private void verificaSeClienteJaExiste(Cliente cliente) {
-		if (clienteRepository.findByEmail(cliente.getEmail()) != null) {
-			throw new ClienteAlreadyExistsException("Já existe um funcionário com esse e-mail");
-		}
 	}
 }

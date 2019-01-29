@@ -13,7 +13,7 @@ import com.lucas.loja.dto.ProdutoEmEstoqueDTO;
 
 public class FromDTO {
 
-	public Compra fromDTOCompra(CompraDTO compraDTO) {
+	public static Compra fromDTOCompra(CompraDTO compraDTO) {
 		return new Compra(compraDTO.getId(), compraDTO.getProdutosComprados(), compraDTO.getCliente(),
 				compraDTO.getFuncionario(), compraDTO.getFormaPagamento());
 	}
@@ -24,19 +24,19 @@ public class FromDTO {
 				clienteDTO.getEndereco());
 	}
 
-	public Funcionario fromDTOFuncionario(FuncionarioDTO funcionarioDTO) {
+	public static Funcionario fromDTOFuncionario(FuncionarioDTO funcionarioDTO) {
 		return new Funcionario(funcionarioDTO.getId(), funcionarioDTO.getNome(), funcionarioDTO.getDataNascimento(),
 				funcionarioDTO.getCpf(), funcionarioDTO.getRg(), funcionarioDTO.getEmail(),
 				funcionarioDTO.getTelefone(), funcionarioDTO.getEndereco(), funcionarioDTO.getCargo());
 	}
 
-	public ProdutoEmEstoque fromDTOProdutoEmEstoque(ProdutoEmEstoqueDTO ProdutoEmEstoqueDTO) {
+	public static ProdutoEmEstoque fromDTOProdutoEmEstoque(ProdutoEmEstoqueDTO ProdutoEmEstoqueDTO) {
 		return new ProdutoEmEstoque(ProdutoEmEstoqueDTO.getId(), ProdutoEmEstoqueDTO.getNome(),
 				ProdutoEmEstoqueDTO.getValor(), ProdutoEmEstoqueDTO.getCodigoBarras(),
 				ProdutoEmEstoqueDTO.getEstoque());
 	}
 
-	public Endereco fromDTOEndereco(EnderecoDTO enderecoDTO) {
+	public static Endereco fromDTOEndereco(EnderecoDTO enderecoDTO) {
 		return new Endereco(enderecoDTO.getCep(), enderecoDTO.getPais(), enderecoDTO.getEstado(), enderecoDTO.getCidade(),
 				enderecoDTO.getBairro(), enderecoDTO.getRua(), enderecoDTO.getNumero());
 	}

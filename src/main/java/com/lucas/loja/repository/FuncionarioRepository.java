@@ -9,4 +9,8 @@ import com.lucas.loja.domain.Funcionario;
 public interface FuncionarioRepository extends MongoRepository<Funcionario, String>{
 
 	Funcionario findByEmail(String email);
+
+	Funcionario findByCpf(String cpf);
+
+	Funcionario findByRg(String rg);
 }

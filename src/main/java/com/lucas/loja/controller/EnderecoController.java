@@ -1,5 +1,7 @@
 package com.lucas.loja.controller;
 
+import static com.lucas.loja.dto.fromdto.FromDTO.fromDTOEndereco;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -13,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.lucas.loja.domain.Endereco;
 import com.lucas.loja.dto.EnderecoDTO;
-import com.lucas.loja.dto.fromdto.FromDTO;
 import com.lucas.loja.service.EnderecoService;
 
 @RestController
@@ -22,8 +23,6 @@ public class EnderecoController {
 
 	@Autowired
 	public EnderecoService enderecoService;
-	
-	private FromDTO fromDTO;
 	
 	@GetMapping(value = "/consulta")
 	public ResponseEntity<List<EnderecoDTO>> listarEnderecos(){
@@ -34,7 +33,7 @@ public class EnderecoController {
 	
 	@PostMapping(value = "/cadastro")
 	public ResponseEntity<Endereco> cadastrarEndereco(@RequestBody EnderecoDTO enderecoDTO) {
-		Endereco endereco = fromDTO.fromDTOEndereco(enderecoDTO);
+		Endereco endereco = fromDTOEndereco(enderecoDTO);
 		enderecoService.saveEndereco(endereco);
 		return ResponseEntity.ok().body(endereco);
 

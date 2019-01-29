@@ -1,6 +1,6 @@
 package com.lucas.loja.domain;
 
-import java.util.Date;
+import java.util.Calendar;
 
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -8,14 +8,14 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public abstract class Pessoa {
 
 	private String nome;
-	private Date dataNascimento;
+	private Calendar dataNascimento;
 	private String cpf;
 	private String rg;
 	private String email;
 	private String telefone;
 	private Endereco endereco;
 	
-	public Pessoa(String nome, Date dataNascimento, String cpf, String rg, String email, String telefone, Endereco endereco) {
+	public Pessoa(String nome, Calendar dataNascimento, String cpf, String rg, String email, String telefone, Endereco endereco) {
 		super();
 		this.nome = nome;
 		this.dataNascimento = dataNascimento;
@@ -34,11 +34,11 @@ public abstract class Pessoa {
 		this.nome = nome;
 	}
 
-	public Date getDataNascimento() {
+	public Calendar getDataNascimento() {
 		return dataNascimento;
 	}
 
-	public void setDataNascimento(Date dataNascimento) {
+	public void setDataNascimento(Calendar dataNascimento) {
 		this.dataNascimento = dataNascimento;
 	}
 

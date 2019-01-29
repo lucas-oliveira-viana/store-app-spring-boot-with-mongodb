@@ -1,6 +1,6 @@
 package com.lucas.loja.dto;
 
-import java.util.Date;
+import java.util.Calendar;
 
 import com.lucas.loja.domain.Endereco;
 import com.lucas.loja.domain.Funcionario;
@@ -9,7 +9,7 @@ public class FuncionarioDTO{
 
 	private String id;
 	private String nome;
-	private Date dataNascimento;
+	private Calendar dataNascimento;
 	private String cpf;
 	private String rg;
 	private String email;
@@ -48,11 +48,11 @@ public class FuncionarioDTO{
 		this.nome = nome;
 	}
 
-	public Date getDataNascimento() {
+	public Calendar getDataNascimento() {
 		return dataNascimento;
 	}
 
-	public void setDataNascimento(Date dataNascimento) {
+	public void setDataNascimento(Calendar dataNascimento) {
 		this.dataNascimento = dataNascimento;
 	}
 

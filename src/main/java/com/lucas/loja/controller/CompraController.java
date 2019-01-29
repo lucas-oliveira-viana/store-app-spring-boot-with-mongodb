@@ -1,5 +1,7 @@
 package com.lucas.loja.controller;
 
+import static com.lucas.loja.dto.fromdto.FromDTO.fromDTOCompra;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,7 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.lucas.loja.controller.utils.URL;
 import com.lucas.loja.domain.Compra;
 import com.lucas.loja.dto.CompraDTO;
-import com.lucas.loja.dto.fromdto.FromDTO;
 import com.lucas.loja.service.CompraService;
 
 @RestController
@@ -28,9 +29,7 @@ public class CompraController {
 	@Autowired
 	private CompraService compraService;
 
-	private FromDTO fromDTO = new FromDTO();
-
-	@GetMapping
+	@GetMapping(value = "/consulta")
 	public ResponseEntity<List<CompraDTO>> listarTodasCompras() {
 		List<Compra> compras = compraService.findAllCompras();
 		List<CompraDTO> dto = passarCompraParaDTO(compras);
@@ -54,7 +53,7 @@ public class CompraController {
 
 	@PostMapping(value = "/comprar")
 	public ResponseEntity<Compra> realizarCompra(@RequestBody CompraDTO compraDTO) {
-		Compra compra = fromDTO.fromDTOCompra(compraDTO);
+		Compra compra = fromDTOCompra(compraDTO);
 		compraService.insertCompra(compra);
 		return ResponseEntity.ok().body(compra);
 	}
@@ -65,9 +64,9 @@ public class CompraController {
 		return ResponseEntity.ok().body("A Compra do id: " + id + " foi excluída");
 	}
 
-	@PutMapping(value = "/atualizarcompra/{id}")
+	@PutMapping(value = "/atualizar/{id}")
 	public ResponseEntity<String> updateCompra(@RequestBody CompraDTO compraAtualizadaDTO, @PathVariable String id) {
-		Compra compraAtualizada = fromDTO.fromDTOCompra(compraAtualizadaDTO);
+		Compra compraAtualizada = fromDTOCompra(compraAtualizadaDTO);
 		compraAtualizada.setId(id);
 		compraService.updateCompra(compraAtualizada);
 		return ResponseEntity.ok()

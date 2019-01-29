@@ -9,4 +9,8 @@ import com.lucas.loja.domain.Cliente;
 public interface ClienteRepository extends MongoRepository<Cliente, String>{
 
 	Cliente findByEmail(String email);
+
+	Cliente findByCpf(String cpf);
+	
+	Cliente findByRg(String rg);
 }
