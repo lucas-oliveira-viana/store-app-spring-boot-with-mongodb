@@ -1,10 +1,11 @@
-package com.lucas.loja.service.validators;
+package com.lucas.loja.service.validator;
 
 import java.util.Calendar;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.lucas.loja.controller.utils.Decoder;
 import com.lucas.loja.exception.DocumentException;
 import com.lucas.loja.exception.cliente.ClienteAlreadyExistsException;
 import com.lucas.loja.exception.cliente.InsufficientAgeException;
@@ -15,6 +16,9 @@ import com.lucas.loja.repository.FuncionarioRepository;
 @Service
 public class Validator {
 
+	private static final int QUANTIDADE_DIGITOS_PADRAO_CEP = 8;
+	private static final int QUANTIDADE_DIGITOS_PADRAO_RG = 9;
+	private static final int QUANTIDADE_DIGITOS_PADRAO_CPF = 11;
 	public static final String REGEX_LETRAS = ".*[a-zA-Z]+.*";
 	public static final String FUNCIONARIO = "Funcionario";
 	public static final String CLIENTE = "Cliente";
@@ -25,67 +29,56 @@ public class Validator {
 	@Autowired
 	private ClienteRepository clienteRepository;
 
-	public String validarRG(String rg) {
-		if (naoContemHifen(rg)) {
-			rg = inserirPontuacoesRG(rg);
+	public static String validarCPF(String cpf) {
+		if (contemPonto(cpf) || contemHifen(cpf)) {
+			cpf = Decoder.removerPontuacoes(cpf);
 		}
-		if (quantidadeDeDigitosDiferenteDe(12, rg)) {
-			throw new DocumentException("O RG deve conter 9 digitos!");
-		}
-		if (contemLetra(rg)) {
-			throw new DocumentException("O RG não deve conter letras!");
-		}
-		return rg;
-	}
-
-	public String validarCPF(String cpf) {
-		if (naoContemPonto(cpf) && naoContemHifen(cpf)) {
-			cpf = inserirPontuacoesCPF(cpf);
-		}
-		if (quantidadeDeDigitosDiferenteDe(14, cpf)) {
-			throw new DocumentException("O CPF deve conter 11 digitos!");
+		if (quantidadeDigitosDiferente(QUANTIDADE_DIGITOS_PADRAO_CPF, cpf)) {
+			throw new DocumentException("O CPF deve conter 11 numeros!");
 		}
 		if (contemLetra(cpf)) {
 			throw new DocumentException("O CPF não deve conter letras!");
 		}
-		return cpf;
+		return cpf = Decoder.inserirPontuacoesCPF(cpf);
+	}
+	
+	public static String validarRG(String rg) {
+		if (contemHifen(rg)) {
+			rg = Decoder.removerPontuacoes(rg);
+		}
+		if (quantidadeDigitosDiferente(QUANTIDADE_DIGITOS_PADRAO_RG, rg)) {
+			throw new DocumentException("O CPF deve conter 9 numeros!");
+		}
+		if (contemLetra(rg)) {
+			throw new DocumentException("O RG não deve conter letras!");
+		}
+		return Decoder.inserirPontuacoesRG(rg);
 	}
 
-	public String validarCEP(String cep) {
-		if (naoContemHifen(cep)) {
-			cep = inserirPontuacoesCEP(cep);
+
+	public static String validarCEP(String cep) {
+		if (contemHifen(cep)) {
+			cep = Decoder.removerPontuacoes(cep);
 		}
-		if (quantidadeDeDigitosDiferenteDe(9, cep)) {
-			throw new DocumentException("O CEP deve conter 8 digitos!");
+		if (quantidadeDigitosDiferente(QUANTIDADE_DIGITOS_PADRAO_CEP, cep)) {
+			throw new DocumentException("O CEP deve conter 8 numeros!");
 		}
 		if (contemLetra(cep)) {
-			throw new DocumentException("O CPF não deve conter letras!");
+			throw new DocumentException("O CEP não deve conter letras!");
 		}
-		return cep;
+		return Decoder.inserirPontuacoesCEP(cep);
+	}
+	
+	private static boolean quantidadeDigitosDiferente(Integer quantidadeDigitosPadraoCpf, String cpf) {
+		return cpf.length() != quantidadeDigitosPadraoCpf;
 	}
 
-	private String inserirPontuacoesCPF(String cpf) {
-		return cpf.substring(0, 3) + "." + cpf.substring(3, 6) + "." + cpf.substring(6, 9) + "-" + cpf.substring(9);
+	private static boolean contemPonto(String cpf) {
+		return cpf.contains(".");
 	}
 
-	private String inserirPontuacoesRG(String rg) {
-		return rg.substring(0, 2) + "." + rg.substring(2, 5) + "." + rg.substring(5, 8) + "-" + rg.substring(8);
-	}
-
-	private static boolean quantidadeDeDigitosDiferenteDe(Integer valor, String documento) {
-		return documento.length() != valor;
-	}
-
-	private String inserirPontuacoesCEP(String cep) {
-		return cep.substring(0, 5) + "-" + cep.substring(5);
-	}
-
-	private boolean naoContemPonto(String cpf) {
-		return !cpf.contains(".");
-	}
-
-	private boolean naoContemHifen(String cpf) {
-		return !cpf.contains("-");
+	private static boolean contemHifen(String cpf) {
+		return cpf.contains("-");
 	}
 
 	private static boolean contemLetra(String rg) {
@@ -110,7 +103,7 @@ public class Validator {
 	public void verificaSeRGJaExiste(String rg, String tipoDeUsuario) {
 		
 		if (tipoDeUsuario.equals(FUNCIONARIO)) {
-			if (funcionarioRepository.findByRg(rg) != null) {
+			if (funcionarioRepository.findByRg(rg).size() == 1) {
 				throw new DocumentException("Já existe um funcionario com esse rg");
 			}
 		}

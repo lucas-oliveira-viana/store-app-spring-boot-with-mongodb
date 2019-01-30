@@ -1,6 +1,7 @@
 package com.lucas.loja.domain;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
@@ -83,4 +84,19 @@ public class Compra {
 		this.valorTotal = valorTotal;
 	}
 	
+	public static void definirValorTotal(Compra compra) {
+		double somaValorDeTodosOsProdutos = listValorDeCadaProdutoComprado(compra)
+																				.stream()
+																				.mapToDouble(valorProduto -> valorProduto)
+																				.sum();
+		compra.setValorTotal(somaValorDeTodosOsProdutos);
+	}
+
+	public static List<Double> listValorDeCadaProdutoComprado(Compra compra) {
+		return compra
+				.getProdutosComprados()
+				.stream()
+				.map(produto -> produto.getQuantidade() * produto.getValor())
+				.collect(Collectors.toList());
+	}
 }

@@ -1,6 +1,6 @@
 package com.lucas.loja.service;
 
-import static com.lucas.loja.service.validators.Validator.FUNCIONARIO;
+import static com.lucas.loja.service.validator.Validator.FUNCIONARIO;
 
 import java.util.List;
 import java.util.Optional;
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import com.lucas.loja.domain.Funcionario;
 import com.lucas.loja.exception.funcionario.FuncionarioNotFoundException;
 import com.lucas.loja.repository.FuncionarioRepository;
-import com.lucas.loja.service.validators.Validator;
+import com.lucas.loja.service.validator.Validator;
 
 @Service
 public class FuncionarioService {
@@ -31,6 +31,10 @@ public class FuncionarioService {
 		return funcionario.orElseThrow(() -> new FuncionarioNotFoundException("Funcionario não encontrado"));
 	}
 	
+	public Funcionario findFuncionarioByCpf(String cpf) {
+		return funcionarioRepository.findByCpf(cpf);
+	}
+	
 	public Funcionario saveFuncionario(Funcionario funcionario) {
 		passarPorValidacoes(funcionario);
 		return funcionarioRepository.save(funcionario);
@@ -40,8 +44,8 @@ public class FuncionarioService {
 		validator.verificaSeUsuarioJaExiste(funcionario.getEmail(), FUNCIONARIO);
 		validator.verificaSeCPFJaExiste(funcionario.getCPF(), FUNCIONARIO);
 		validator.verificaSeRGJaExiste(funcionario.getRG(), FUNCIONARIO);
-		validator.validarCPF(funcionario.getCPF());
-		validator.validarRG(funcionario.getRG());
+		Validator.validarRG(funcionario.getCPF());
+		Validator.validarRG(funcionario.getRG());
 	}
 	
 	public void deleteFuncionario(String id) {

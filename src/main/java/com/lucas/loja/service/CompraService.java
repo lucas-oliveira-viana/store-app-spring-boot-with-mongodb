@@ -1,8 +1,9 @@
 package com.lucas.loja.service;
 
+import static com.lucas.loja.domain.Compra.definirValorTotal;
+
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,7 +39,7 @@ public class CompraService {
 		return compra.orElseThrow(() -> new CompraNotFoundException("Cliente não encontrado"));
 	}
 
-	public Compra insertCompra(Compra compra) {
+	public Compra saveCompra(Compra compra) {
 		estoqueService.verificarSeProdutoCompradoExisteNoEstoque(compra.getProdutosComprados());
 		definirValorTotal(compra);
 		salvarEntidades(compra);
@@ -47,10 +48,6 @@ public class CompraService {
 	
 	public List<Compra> findByProdutosComprados(String produto){
 		return compraRepository.findByProdutosCompradosNomeContainingIgnoreCase(produto);
-	}
-	
-	public Compra saveCompra(Compra compra) {
-		return compraRepository.save(compra);
 	}
 
 	public void deleteCompra(String id) {
@@ -64,7 +61,7 @@ public class CompraService {
 	public Compra updateCompra(Compra compraAtualizada) {
 		Compra compraAntiga = findComprasById(compraAtualizada.getId());
 		updateDataCompra(compraAntiga, compraAtualizada);
-		return compraRepository.save(compraAtualizada);
+		return saveCompra(compraAtualizada);
 	}
 
 	private void updateDataCompra(Compra compraAntiga, Compra compraAtualizada) {
@@ -91,27 +88,10 @@ public class CompraService {
 		clienteService.saveCliente(compraAtualizada.getCliente());
 	}
 
-	private void definirValorTotal(Compra compra) {
-		double somaValorDeTodosOsProdutos = listValorDeCadaProdutoComprado(compra)
-																				.stream()
-																				.mapToDouble(valorProduto -> valorProduto)
-																				.sum();
-		compra.setValorTotal(somaValorDeTodosOsProdutos);
-	}
-
-	private List<Double> listValorDeCadaProdutoComprado(Compra compra) {
-		return compra
-				.getProdutosComprados()
-				.stream()
-				.map(produto -> produto.getQuantidade() * produto.getValor())
-				.collect(Collectors.toList());
-	}
-
 	private void salvarEntidades(Compra compra) {
 		enderecoService.saveEndereco(compra.getCliente().getEndereco());
 		clienteService.saveCliente(compra.getCliente());
 		funcionarioService.saveFuncionario(compra.getFuncionario());
 		enderecoService.saveEndereco(compra.getFuncionario().getEndereco());
 	}
-
 }

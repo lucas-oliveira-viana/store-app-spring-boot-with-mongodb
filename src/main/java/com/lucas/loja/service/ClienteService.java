@@ -1,6 +1,6 @@
 package com.lucas.loja.service;
 
-import static com.lucas.loja.service.validators.Validator.CLIENTE;
+import static com.lucas.loja.service.validator.Validator.CLIENTE;
 
 import java.util.List;
 import java.util.Optional;
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import com.lucas.loja.domain.Cliente;
 import com.lucas.loja.exception.cliente.ClienteNotFoundException;
 import com.lucas.loja.repository.ClienteRepository;
-import com.lucas.loja.service.validators.Validator;
+import com.lucas.loja.service.validator.Validator;
 
 @Service
 public class ClienteService {
@@ -31,6 +31,10 @@ public class ClienteService {
 		return cliente.orElseThrow(() -> new ClienteNotFoundException("Cliente não encontrado"));
 	}
 	
+	public Cliente findClienteByCpf(String cpf) {
+		return clienteRepository.findByCpf(cpf);
+	}
+	
 	public Cliente saveCliente(Cliente cliente) {
 		passarPorValidacoes(cliente);
 		return clienteRepository.save(cliente);
@@ -41,8 +45,8 @@ public class ClienteService {
 		validator.verificaSeTemIdadeMinima(cliente.getDataNascimento());
 		validator.verificaSeCPFJaExiste(cliente.getCPF(), CLIENTE);
 		validator.verificaSeRGJaExiste(cliente.getRG(), CLIENTE);
-		validator.validarCPF(cliente.getCPF());
-		validator.validarRG(cliente.getRG());
+		Validator.validarCPF(cliente.getCPF());
+		Validator.validarRG(cliente.getRG());
 	}
 
 	public void deleteCliente(String id) {

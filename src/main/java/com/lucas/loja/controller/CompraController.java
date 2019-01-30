@@ -43,8 +43,7 @@ public class CompraController {
 	}
 
 	@GetMapping(value = "/filtrarporproduto")
-	public ResponseEntity<List<CompraDTO>> filtrarComprasPorProdutoContido(
-			@RequestParam(value = "produto", defaultValue = "") String produto) {
+	public ResponseEntity<List<CompraDTO>> filtrarComprasPorProdutoContido(@RequestParam(value = "produto", defaultValue = "") String produto) {
 		produto = URL.decodeParam(produto);
 		List<Compra> comprasQueContemEsseProduto = compraService.findByProdutosComprados(produto);
 		List<CompraDTO> dto = passarCompraParaDTO(comprasQueContemEsseProduto);
@@ -54,7 +53,7 @@ public class CompraController {
 	@PostMapping(value = "/comprar")
 	public ResponseEntity<Compra> realizarCompra(@RequestBody CompraDTO compraDTO) {
 		Compra compra = fromDTOCompra(compraDTO);
-		compraService.insertCompra(compra);
+		compraService.saveCompra(compra);
 		return ResponseEntity.ok().body(compra);
 	}
 
@@ -69,8 +68,7 @@ public class CompraController {
 		Compra compraAtualizada = fromDTOCompra(compraAtualizadaDTO);
 		compraAtualizada.setId(id);
 		compraService.updateCompra(compraAtualizada);
-		return ResponseEntity.ok()
-				.body("A compra de: " + compraAtualizada.getCliente().getNome() + " foi atualizada com sucesso!");
+		return ResponseEntity.ok().body("A compra de: " + compraAtualizada.getCliente().getNome() + " foi atualizada com sucesso!");
 	}
 	
 	private List<CompraDTO> passarCompraParaDTO(List<Compra> comprasQueContemEsseProduto) {

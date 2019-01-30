@@ -1,5 +1,7 @@
 package com.lucas.loja.repository;
 
+import java.util.List;
+
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
@@ -12,5 +14,5 @@ public interface ClienteRepository extends MongoRepository<Cliente, String>{
 
 	Cliente findByCpf(String cpf);
 	
-	Cliente findByRg(String rg);
+	List<Cliente> findByRg(String rg);
 }

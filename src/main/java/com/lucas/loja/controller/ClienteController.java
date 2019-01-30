@@ -14,8 +14,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.lucas.loja.controller.utils.Decoder;
 import com.lucas.loja.domain.Cliente;
 import com.lucas.loja.dto.ClienteDTO;
 import com.lucas.loja.service.ClienteService;
@@ -31,6 +33,14 @@ public class ClienteController {
 	public ResponseEntity<List<ClienteDTO>> listarClientes(){
 		List<Cliente> clientes = clienteService.findAllClientes();
 		List<ClienteDTO> dto = clientes.stream().map(cliente -> new ClienteDTO(cliente)).collect(Collectors.toList());
+		return ResponseEntity.ok().body(dto);
+	}
+	
+	@GetMapping(value = "/filtrarporcpf")
+	public ResponseEntity<ClienteDTO> filtrarClientePorCpf(@RequestParam (value = "cpf", defaultValue = "") String cpf){
+		cpf = Decoder.inserirPontuacoesCPF(cpf);
+		Cliente clientesQueContemEsseCpf = clienteService.findClienteByCpf(cpf);
+		ClienteDTO dto = new ClienteDTO(clientesQueContemEsseCpf);
 		return ResponseEntity.ok().body(dto);
 	}
 	
