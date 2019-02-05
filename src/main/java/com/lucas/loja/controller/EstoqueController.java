@@ -1,6 +1,7 @@
 package com.lucas.loja.controller;
 
-import static com.lucas.loja.dto.fromdto.FromDTO.fromDTOProdutoEmEstoque;
+import static com.lucas.loja.controller.utils.FromDTO.fromDTOProdutoEmEstoque;
+import static com.lucas.loja.controller.utils.ToDTO.passarEstoqueParaDTO;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -31,8 +32,7 @@ public class EstoqueController {
 	public ResponseEntity<List<ProdutoEmEstoqueDTO>> listarTodoEstoque() {
 		
 		List<ProdutoEmEstoque> produtoEmEstoque = estoqueService.findAllProdutosEmEstoque();
-		List<ProdutoEmEstoqueDTO> dto = produtoEmEstoque.stream().map(produto -> new ProdutoEmEstoqueDTO(produto))
-				.collect(Collectors.toList());
+		List<ProdutoEmEstoqueDTO> dto = passarEstoqueParaDTO(produtoEmEstoque);
 		return ResponseEntity.ok().body(dto);
 	}
 	

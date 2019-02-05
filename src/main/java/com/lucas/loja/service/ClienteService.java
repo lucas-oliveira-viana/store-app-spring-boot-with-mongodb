@@ -1,6 +1,10 @@
 package com.lucas.loja.service;
 
-import static com.lucas.loja.service.validator.Validator.CLIENTE;
+import static com.lucas.loja.service.validator.TipoDocumento.CEP;
+import static com.lucas.loja.service.validator.TipoDocumento.CPF;
+import static com.lucas.loja.service.validator.TipoDocumento.EMAIL;
+import static com.lucas.loja.service.validator.TipoDocumento.RG;
+import static com.lucas.loja.service.validator.TipoUsuario.CLIENTE;
 
 import java.util.List;
 import java.util.Optional;
@@ -11,7 +15,9 @@ import org.springframework.stereotype.Service;
 import com.lucas.loja.domain.Cliente;
 import com.lucas.loja.exception.cliente.ClienteNotFoundException;
 import com.lucas.loja.repository.ClienteRepository;
-import com.lucas.loja.service.validator.Validator;
+import com.lucas.loja.service.validator.ValidatorCalendar;
+import com.lucas.loja.service.validator.ValidatorDocumento;
+import com.lucas.loja.service.validator.VerificationDocumento;
 
 @Service
 public class ClienteService {
@@ -20,7 +26,7 @@ public class ClienteService {
 	private ClienteRepository clienteRepository;
 	
 	@Autowired
-	private Validator validator;
+	private VerificationDocumento verificationDocumento;
 	
 	public List<Cliente> findAllClientes(){
 		return clienteRepository.findAll();
@@ -41,12 +47,15 @@ public class ClienteService {
 	}
 
 	private void passarPorValidacoes(Cliente cliente) {
-		validator.verificaSeUsuarioJaExiste(cliente.getEmail(), CLIENTE);
-		validator.verificaSeTemIdadeMinima(cliente.getDataNascimento());
-		validator.verificaSeCPFJaExiste(cliente.getCPF(), CLIENTE);
-		validator.verificaSeRGJaExiste(cliente.getRG(), CLIENTE);
-		Validator.validarCPF(cliente.getCPF());
-		Validator.validarRG(cliente.getRG());
+		ValidatorCalendar.verificaSeTemIdadeMinima(cliente.getDataNascimento());
+		
+		verificationDocumento.verificaSeCampoJaEstaCadastrado(RG, CLIENTE);
+		verificationDocumento.verificaSeCampoJaEstaCadastrado(CPF, CLIENTE);
+		verificationDocumento.verificaSeCampoJaEstaCadastrado(EMAIL, CLIENTE);
+		
+		ValidatorDocumento.validarDocumento(cliente.getCPF(), CPF);
+		ValidatorDocumento.validarDocumento(cliente.getRG(), RG);
+		ValidatorDocumento.validarDocumento(cliente.getEndereco().getCep(), CEP);
 	}
 
 	public void deleteCliente(String id) {

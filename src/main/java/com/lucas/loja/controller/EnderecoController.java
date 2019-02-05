@@ -1,9 +1,9 @@
 package com.lucas.loja.controller;
 
-import static com.lucas.loja.dto.fromdto.FromDTO.fromDTOEndereco;
+import static com.lucas.loja.controller.utils.FromDTO.fromDTOEndereco;
+import static com.lucas.loja.controller.utils.ToDTO.passarEnderecoParaDTO;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +27,7 @@ public class EnderecoController {
 	@GetMapping(value = "/consulta")
 	public ResponseEntity<List<EnderecoDTO>> listarEnderecos(){
 		List<Endereco> enderecos = enderecoService.findAllEnderecos();
-		List<EnderecoDTO> dto = enderecos.stream().map(endereco -> new EnderecoDTO(endereco)).collect(Collectors.toList());
+		List<EnderecoDTO> dto = passarEnderecoParaDTO(enderecos);
 		return ResponseEntity.ok().body(dto);
 	}
 	

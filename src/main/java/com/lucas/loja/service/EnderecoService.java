@@ -1,5 +1,7 @@
 package com.lucas.loja.service;
 
+import static com.lucas.loja.service.validator.TipoDocumento.CEP;
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.lucas.loja.domain.Endereco;
 import com.lucas.loja.repository.EnderecoRepository;
-import com.lucas.loja.service.validator.Validator;
+import com.lucas.loja.service.validator.ValidatorDocumento;
 
 @Service
 public class EnderecoService {
@@ -20,7 +22,7 @@ public class EnderecoService {
 	}
 
 	public void saveEndereco(Endereco endereco) {
-		Validator.validarCEP(endereco.getCep());
+		ValidatorDocumento.validarDocumento(endereco.getCep(), CEP);
 		enderecoRepository.save(endereco);
 	}
 

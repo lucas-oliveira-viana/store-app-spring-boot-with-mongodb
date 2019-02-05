@@ -1,4 +1,4 @@
-package com.lucas.loja.dto.fromdto;
+package com.lucas.loja.controller.utils;
 
 import com.lucas.loja.domain.Cliente;
 import com.lucas.loja.domain.Compra;

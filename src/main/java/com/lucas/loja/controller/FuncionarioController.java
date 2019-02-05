@@ -1,9 +1,9 @@
 package com.lucas.loja.controller;
 
-import static com.lucas.loja.dto.fromdto.FromDTO.fromDTOFuncionario;
+import static com.lucas.loja.controller.utils.FromDTO.fromDTOFuncionario;
+import static com.lucas.loja.controller.utils.ToDTO.passarFuncionarioParaDTO;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -32,14 +32,14 @@ public class FuncionarioController {
 	@GetMapping(value = "/consulta")
 	public ResponseEntity<List<FuncionarioDTO>> listarFuncionarios(){
 		List<Funcionario> funcionarios = funcionarioService.findAllFuncionarios();
-		List<FuncionarioDTO> dto = passarParaDTO(funcionarios);
+		List<FuncionarioDTO> dto = passarFuncionarioParaDTO(funcionarios);
 		return ResponseEntity.ok().body(dto);
 	}
 	
 	@GetMapping(value = "/filtrarporcpf")
 	public ResponseEntity<FuncionarioDTO> filtrarFuncionarioPorCpf(@RequestParam (value = "cpf", defaultValue = "") String cpf){
 		cpf = (URL.decodeParam(cpf));
-		Funcionario funcionariosQueContemEsseCpf = funcionarioService.findFuncionarioByCpf(cpf);
+		Funcionario funcionariosQueContemEsseCpf = funcionarioService.findByCpf(cpf);
 		FuncionarioDTO dto = new FuncionarioDTO(funcionariosQueContemEsseCpf);
 		return ResponseEntity.ok().body(dto);
 	}
@@ -63,9 +63,5 @@ public class FuncionarioController {
 		funcionarioAtualizado.setId(id);
 		funcionarioService.updateFuncionario(funcionarioAtualizado);
 		return ResponseEntity.ok().body("O cadastro de: " + funcionarioAtualizado.getNome() + "foi atualizado com sucesso!");
-	}
-	
-	private List<FuncionarioDTO> passarParaDTO(List<Funcionario> funcionariosQueContemEsseCpf) {
-		return funcionariosQueContemEsseCpf.stream().map(funcionario -> new FuncionarioDTO(funcionario)).collect(Collectors.toList());
 	}
 }

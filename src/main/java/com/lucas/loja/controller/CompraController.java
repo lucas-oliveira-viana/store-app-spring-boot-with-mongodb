@@ -1,9 +1,9 @@
 package com.lucas.loja.controller;
 
-import static com.lucas.loja.dto.fromdto.FromDTO.fromDTOCompra;
+import static com.lucas.loja.controller.utils.FromDTO.fromDTOCompra;
+import static com.lucas.loja.controller.utils.ToDTO.passarCompraParaDTO;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -69,9 +69,5 @@ public class CompraController {
 		compraAtualizada.setId(id);
 		compraService.updateCompra(compraAtualizada);
 		return ResponseEntity.ok().body("A compra de: " + compraAtualizada.getCliente().getNome() + " foi atualizada com sucesso!");
-	}
-	
-	private List<CompraDTO> passarCompraParaDTO(List<Compra> comprasQueContemEsseProduto) {
-		return comprasQueContemEsseProduto.stream().map(compra -> new CompraDTO(compra)).collect(Collectors.toList());
 	}
 }

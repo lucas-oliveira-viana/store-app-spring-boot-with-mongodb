@@ -1,9 +1,8 @@
 package com.lucas.loja.controller;
 
-import static com.lucas.loja.dto.fromdto.FromDTO.fromDTOCliente;
+import static com.lucas.loja.controller.utils.FromDTO.fromDTOCliente;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.lucas.loja.controller.utils.Decoder;
+import com.lucas.loja.controller.utils.ToDTO;
 import com.lucas.loja.domain.Cliente;
 import com.lucas.loja.dto.ClienteDTO;
 import com.lucas.loja.service.ClienteService;
@@ -32,7 +32,7 @@ public class ClienteController {
 	@GetMapping(value = "/consulta")
 	public ResponseEntity<List<ClienteDTO>> listarClientes(){
 		List<Cliente> clientes = clienteService.findAllClientes();
-		List<ClienteDTO> dto = clientes.stream().map(cliente -> new ClienteDTO(cliente)).collect(Collectors.toList());
+		List<ClienteDTO> dto = ToDTO.passarClienteParaDTO(clientes);
 		return ResponseEntity.ok().body(dto);
 	}
 	

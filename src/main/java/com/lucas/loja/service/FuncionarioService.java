@@ -1,6 +1,10 @@
 package com.lucas.loja.service;
 
-import static com.lucas.loja.service.validator.Validator.FUNCIONARIO;
+import static com.lucas.loja.service.validator.TipoDocumento.CEP;
+import static com.lucas.loja.service.validator.TipoDocumento.CPF;
+import static com.lucas.loja.service.validator.TipoDocumento.EMAIL;
+import static com.lucas.loja.service.validator.TipoDocumento.RG;
+import static com.lucas.loja.service.validator.TipoUsuario.FUNCIONARIO;
 
 import java.util.List;
 import java.util.Optional;
@@ -11,7 +15,9 @@ import org.springframework.stereotype.Service;
 import com.lucas.loja.domain.Funcionario;
 import com.lucas.loja.exception.funcionario.FuncionarioNotFoundException;
 import com.lucas.loja.repository.FuncionarioRepository;
-import com.lucas.loja.service.validator.Validator;
+import com.lucas.loja.service.validator.ValidatorCalendar;
+import com.lucas.loja.service.validator.ValidatorDocumento;
+import com.lucas.loja.service.validator.VerificationDocumento;
 
 @Service
 public class FuncionarioService {
@@ -20,18 +26,18 @@ public class FuncionarioService {
 	private FuncionarioRepository funcionarioRepository;
 	
 	@Autowired
-	private Validator validator;
+	private VerificationDocumento verificationDocumento;
 
 	public List<Funcionario> findAllFuncionarios() {
 		return funcionarioRepository.findAll();
 	}
 	
-	private Funcionario findFuncionarioById(String id) {
+	public Funcionario findFuncionarioById(String id) {
 		Optional<Funcionario> funcionario = funcionarioRepository.findById(id);
 		return funcionario.orElseThrow(() -> new FuncionarioNotFoundException("Funcionario não encontrado"));
 	}
 	
-	public Funcionario findFuncionarioByCpf(String cpf) {
+	public Funcionario findByCpf(String cpf) {
 		return funcionarioRepository.findByCpf(cpf);
 	}
 	
@@ -41,11 +47,15 @@ public class FuncionarioService {
 	}
 
 	private void passarPorValidacoes(Funcionario funcionario) {
-		validator.verificaSeUsuarioJaExiste(funcionario.getEmail(), FUNCIONARIO);
-		validator.verificaSeCPFJaExiste(funcionario.getCPF(), FUNCIONARIO);
-		validator.verificaSeRGJaExiste(funcionario.getRG(), FUNCIONARIO);
-		Validator.validarRG(funcionario.getCPF());
-		Validator.validarRG(funcionario.getRG());
+		ValidatorCalendar.verificaSeTemIdadeMinima(funcionario.getDataNascimento());
+		
+		verificationDocumento.verificaSeCampoJaEstaCadastrado(RG, FUNCIONARIO);
+		verificationDocumento.verificaSeCampoJaEstaCadastrado(CPF, FUNCIONARIO);
+		verificationDocumento.verificaSeCampoJaEstaCadastrado(EMAIL, FUNCIONARIO);
+		
+		ValidatorDocumento.validarDocumento(funcionario.getCPF(), CPF);
+		ValidatorDocumento.validarDocumento(funcionario.getRG(), RG);
+		ValidatorDocumento.validarDocumento(funcionario.getEndereco().getCep(), CEP);
 	}
 	
 	public void deleteFuncionario(String id) {
