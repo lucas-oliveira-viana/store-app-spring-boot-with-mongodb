@@ -14,8 +14,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.lucas.loja.domain.Endereco;
-import com.lucas.loja.domain.Funcionario;
+import com.lucas.loja.entities.Endereco;
+import com.lucas.loja.entities.Funcionario;
 import com.lucas.loja.repository.FuncionarioRepository;
 import com.lucas.loja.service.FuncionarioService;
 

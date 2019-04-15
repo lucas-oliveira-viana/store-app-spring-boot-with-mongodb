@@ -1,11 +1,11 @@
-package com.lucas.loja.domain.produto;
+package com.lucas.loja.entities.produto;
 
-public class ProdutoComprado extends Produto{
+public class Cesta extends Produto{
 
 	private Integer quantidade;
 	private Double valorTotalProduto;
 	
-	public ProdutoComprado(String nome, Double valor, String codigoBarras, Integer quantidade) {
+	public Cesta(String nome, Double valor, String codigoBarras, Integer quantidade) {
 		super(nome, valor, codigoBarras);
 		this.quantidade = quantidade;
 	}

@@ -1,6 +1,6 @@
 package com.lucas.loja.service;
 
-import static com.lucas.loja.domain.Compra.definirValorTotal;
+import static com.lucas.loja.entities.Compra.definirValorTotal;
 
 import java.util.List;
 import java.util.Optional;
@@ -8,7 +8,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.lucas.loja.domain.Compra;
+import com.lucas.loja.entities.Compra;
 import com.lucas.loja.exception.compra.CompraNotFoundException;
 import com.lucas.loja.repository.CompraRepository;
 

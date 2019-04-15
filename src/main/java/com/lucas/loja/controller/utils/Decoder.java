@@ -19,5 +19,4 @@ public class Decoder {
 		documento = documento.replace("-", "");
 		return documento;
 	}
-	
 }

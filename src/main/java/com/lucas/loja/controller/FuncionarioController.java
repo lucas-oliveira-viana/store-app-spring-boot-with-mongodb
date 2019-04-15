@@ -18,8 +18,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.lucas.loja.controller.utils.URL;
-import com.lucas.loja.domain.Funcionario;
 import com.lucas.loja.dto.FuncionarioDTO;
+import com.lucas.loja.entities.Funcionario;
 import com.lucas.loja.service.FuncionarioService;
 
 @RestController

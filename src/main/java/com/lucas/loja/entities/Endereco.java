@@ -1,4 +1,4 @@
-package com.lucas.loja.domain;
+package com.lucas.loja.entities;
 
 import org.springframework.data.mongodb.core.mapping.Document;
 

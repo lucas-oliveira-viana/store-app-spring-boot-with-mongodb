@@ -1,6 +1,6 @@
 package com.lucas.loja.dto;
 
-import com.lucas.loja.domain.Endereco;
+import com.lucas.loja.entities.Endereco;
 
 public class EnderecoDTO {
 

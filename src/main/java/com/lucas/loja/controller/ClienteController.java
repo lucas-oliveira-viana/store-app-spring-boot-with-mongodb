@@ -1,6 +1,5 @@
 package com.lucas.loja.controller;
 
-import static com.lucas.loja.controller.utils.FromDTO.fromDTOCliente;
 
 import java.util.List;
 
@@ -17,9 +16,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.lucas.loja.controller.utils.Decoder;
+import com.lucas.loja.controller.utils.FromDTO;
 import com.lucas.loja.controller.utils.ToDTO;
-import com.lucas.loja.domain.Cliente;
 import com.lucas.loja.dto.ClienteDTO;
+import com.lucas.loja.entities.Cliente;
 import com.lucas.loja.service.ClienteService;
 
 @RestController
@@ -46,7 +46,7 @@ public class ClienteController {
 	
 	@PostMapping(value = "/cadastro")
 	public ResponseEntity<Cliente> cadastrarCliente(@RequestBody ClienteDTO clienteDTO) {
-		Cliente cliente = fromDTOCliente(clienteDTO);
+		Cliente cliente = FromDTO.fromDTOCliente(clienteDTO);
 		clienteService.saveCliente(cliente);
 		return ResponseEntity.ok().body(cliente);
 	}
@@ -59,7 +59,7 @@ public class ClienteController {
 	
 	@PutMapping(value = "atualizar/{id}")
 	public ResponseEntity<String> updateFuncionario(@RequestBody ClienteDTO clienteDTO, @PathVariable String id){
-		Cliente clienteAtualizado = fromDTOCliente(clienteDTO);
+		Cliente clienteAtualizado = FromDTO.fromDTOCliente(clienteDTO);
 		clienteAtualizado.setId(id);
 		clienteService.updateCliente(clienteAtualizado);
 		return ResponseEntity.ok().body("O cadastro de: " + clienteAtualizado.getNome() + " foi atualizado com sucesso!");

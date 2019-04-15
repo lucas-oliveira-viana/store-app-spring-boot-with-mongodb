@@ -1,6 +1,6 @@
 package com.lucas.loja.dto;
 
-import com.lucas.loja.domain.produto.ProdutoEmEstoque;
+import com.lucas.loja.entities.produto.ProdutoEmEstoque;
 
 public class ProdutoEmEstoqueDTO{
 	

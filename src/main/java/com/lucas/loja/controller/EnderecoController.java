@@ -1,6 +1,5 @@
 package com.lucas.loja.controller;
 
-import static com.lucas.loja.controller.utils.FromDTO.fromDTOEndereco;
 import static com.lucas.loja.controller.utils.ToDTO.passarEnderecoParaDTO;
 
 import java.util.List;
@@ -13,8 +12,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.lucas.loja.domain.Endereco;
+import com.lucas.loja.controller.utils.FromDTO;
 import com.lucas.loja.dto.EnderecoDTO;
+import com.lucas.loja.entities.Endereco;
 import com.lucas.loja.service.EnderecoService;
 
 @RestController
@@ -33,7 +33,7 @@ public class EnderecoController {
 	
 	@PostMapping(value = "/cadastro")
 	public ResponseEntity<Endereco> cadastrarEndereco(@RequestBody EnderecoDTO enderecoDTO) {
-		Endereco endereco = fromDTOEndereco(enderecoDTO);
+		Endereco endereco = FromDTO.fromDTOEndereco(enderecoDTO);
 		enderecoService.saveEndereco(endereco);
 		return ResponseEntity.ok().body(endereco);
 

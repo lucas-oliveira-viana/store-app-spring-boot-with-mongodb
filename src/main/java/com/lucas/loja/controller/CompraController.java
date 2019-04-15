@@ -1,8 +1,6 @@
 package com.lucas.loja.controller;
 
-import static com.lucas.loja.controller.utils.FromDTO.fromDTOCompra;
 import static com.lucas.loja.controller.utils.ToDTO.passarCompraParaDTO;
-
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,9 +15,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.lucas.loja.controller.utils.FromDTO;
 import com.lucas.loja.controller.utils.URL;
-import com.lucas.loja.domain.Compra;
 import com.lucas.loja.dto.CompraDTO;
+import com.lucas.loja.entities.Compra;
 import com.lucas.loja.service.CompraService;
 
 @RestController
@@ -52,7 +51,7 @@ public class CompraController {
 
 	@PostMapping(value = "/comprar")
 	public ResponseEntity<Compra> realizarCompra(@RequestBody CompraDTO compraDTO) {
-		Compra compra = fromDTOCompra(compraDTO);
+		Compra compra = FromDTO.fromDTOCompra(compraDTO);
 		compraService.saveCompra(compra);
 		return ResponseEntity.ok().body(compra);
 	}
@@ -65,7 +64,7 @@ public class CompraController {
 
 	@PutMapping(value = "/atualizar/{id}")
 	public ResponseEntity<String> updateCompra(@RequestBody CompraDTO compraAtualizadaDTO, @PathVariable String id) {
-		Compra compraAtualizada = fromDTOCompra(compraAtualizadaDTO);
+		Compra compraAtualizada = FromDTO.fromDTOCompra(compraAtualizadaDTO);
 		compraAtualizada.setId(id);
 		compraService.updateCompra(compraAtualizada);
 		return ResponseEntity.ok().body("A compra de: " + compraAtualizada.getCliente().getNome() + " foi atualizada com sucesso!");

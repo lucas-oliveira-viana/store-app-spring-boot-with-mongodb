@@ -2,15 +2,15 @@ package com.lucas.loja.dto;
 
 import java.util.List;
 
-import com.lucas.loja.domain.Cliente;
-import com.lucas.loja.domain.Compra;
-import com.lucas.loja.domain.Funcionario;
-import com.lucas.loja.domain.produto.ProdutoComprado;
+import com.lucas.loja.entities.Cliente;
+import com.lucas.loja.entities.Compra;
+import com.lucas.loja.entities.Funcionario;
+import com.lucas.loja.entities.produto.Cesta;
 
 public class CompraDTO {
 	
 	private String id;
-	private List<ProdutoComprado> produtosComprados;
+	private List<Cesta> produtosComprados;
 	private Cliente cliente;
 	private Funcionario funcionario;
 	private String formaPagamento;
@@ -36,11 +36,11 @@ public class CompraDTO {
 		this.id = id;
 	}
 	
-	public List<ProdutoComprado> getProdutosComprados() {
+	public List<Cesta> getProdutosComprados() {
 		return produtosComprados;
 	}
 
-	public void setProdutosComprados(List<ProdutoComprado> produto) {
+	public void setProdutosComprados(List<Cesta> produto) {
 		this.produtosComprados = produto;
 	}
 

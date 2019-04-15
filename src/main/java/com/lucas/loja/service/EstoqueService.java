@@ -6,8 +6,8 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.lucas.loja.domain.produto.ProdutoComprado;
-import com.lucas.loja.domain.produto.ProdutoEmEstoque;
+import com.lucas.loja.entities.produto.Cesta;
+import com.lucas.loja.entities.produto.ProdutoEmEstoque;
 import com.lucas.loja.exception.compra.InsufficientEstoqueException;
 import com.lucas.loja.exception.produto.ProdutoAlreadyExistsInEstoqueException;
 import com.lucas.loja.exception.produto.ProdutoNotFoundException;
@@ -63,8 +63,8 @@ public class EstoqueService {
 		}
 	}
 	
-	public ProdutoComprado verificarSeProdutoCompradoExisteNoEstoque(List<ProdutoComprado> produtosComprados) {
-		for (ProdutoComprado produtoComprado : produtosComprados) {
+	public Cesta verificarSeProdutoCompradoExisteNoEstoque(List<Cesta> produtosComprados) {
+		for (Cesta produtoComprado : produtosComprados) {
 			boolean existeProdutoNoEstoque = findByCodigoBarras(produtoComprado.getCodigoBarras()) != null;
 			if (existeProdutoNoEstoque) {
 				retiraDoEstoque(produtoComprado);
@@ -74,7 +74,7 @@ public class EstoqueService {
 		throw new ProdutoNotFoundException("Produto não encontrado no estoque");
 	}
 	
-	public ProdutoEmEstoque retiraDoEstoque(ProdutoComprado produtoComprado) {
+	public ProdutoEmEstoque retiraDoEstoque(Cesta produtoComprado) {
 		ProdutoEmEstoque estoqueDoProdutoComprado = findByCodigoBarras(produtoComprado.getCodigoBarras());
 
 		Integer quantidadeDeEstoqueDoProdutoComprado = estoqueDoProdutoComprado.getEstoque();

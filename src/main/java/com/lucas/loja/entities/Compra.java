@@ -1,4 +1,4 @@
-package com.lucas.loja.domain;
+package com.lucas.loja.entities;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -7,7 +7,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import com.lucas.loja.domain.produto.ProdutoComprado;
+import com.lucas.loja.entities.produto.Cesta;
 
 @Document(collection="compra")
 public class Compra {
@@ -15,7 +15,7 @@ public class Compra {
 	@Id
 	private String id;
 	
-	private List<ProdutoComprado> produtosComprados;
+	private List<Cesta> produtosComprados;
 	
 	@DBRef
 	private Cliente cliente;
@@ -27,7 +27,7 @@ public class Compra {
 	
 	private Double valorTotal;
 	
-	public Compra(String id, List<ProdutoComprado> produtosComprados, Cliente cliente,
+	public Compra(String id, List<Cesta> produtosComprados, Cliente cliente,
 			Funcionario funcionario, String formaPagamento) {
 		this.id = id;
 		this.produtosComprados = produtosComprados;
@@ -44,11 +44,11 @@ public class Compra {
 		this.id = id;
 	}
 
-	public List<ProdutoComprado> getProdutosComprados() {
+	public List<Cesta> getProdutosComprados() {
 		return produtosComprados;
 	}
 
-	public void setProdutosComprados(List<ProdutoComprado> produto) {
+	public void setProdutosComprados(List<Cesta> produto) {
 		this.produtosComprados = produto;
 	}
 

@@ -3,16 +3,16 @@ package com.lucas.loja.controller.utils;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.lucas.loja.domain.Cliente;
-import com.lucas.loja.domain.Compra;
-import com.lucas.loja.domain.Endereco;
-import com.lucas.loja.domain.Funcionario;
-import com.lucas.loja.domain.produto.ProdutoEmEstoque;
 import com.lucas.loja.dto.ClienteDTO;
 import com.lucas.loja.dto.CompraDTO;
 import com.lucas.loja.dto.EnderecoDTO;
 import com.lucas.loja.dto.FuncionarioDTO;
 import com.lucas.loja.dto.ProdutoEmEstoqueDTO;
+import com.lucas.loja.entities.Cliente;
+import com.lucas.loja.entities.Compra;
+import com.lucas.loja.entities.Endereco;
+import com.lucas.loja.entities.Funcionario;
+import com.lucas.loja.entities.produto.ProdutoEmEstoque;
 
 public class ToDTO {
 

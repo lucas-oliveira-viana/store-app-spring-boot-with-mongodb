@@ -12,7 +12,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.lucas.loja.domain.Cliente;
+import com.lucas.loja.entities.Cliente;
 import com.lucas.loja.exception.cliente.ClienteNotFoundException;
 import com.lucas.loja.repository.ClienteRepository;
 import com.lucas.loja.service.validator.ValidatorCalendar;

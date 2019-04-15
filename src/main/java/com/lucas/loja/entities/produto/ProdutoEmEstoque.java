@@ -1,4 +1,4 @@
-package com.lucas.loja.domain.produto;
+package com.lucas.loja.entities.produto;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;

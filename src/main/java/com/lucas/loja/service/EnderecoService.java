@@ -7,7 +7,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.lucas.loja.domain.Endereco;
+import com.lucas.loja.entities.Endereco;
 import com.lucas.loja.repository.EnderecoRepository;
 import com.lucas.loja.service.validator.ValidatorDocumento;
 

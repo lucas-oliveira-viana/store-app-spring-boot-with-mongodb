@@ -2,7 +2,7 @@ package com.lucas.loja.dto;
 
 import java.io.Serializable;
 
-import com.lucas.loja.domain.produto.Produto;
+import com.lucas.loja.entities.produto.Produto;
 
 public class ProdutoDTO implements Serializable{
 	private static final long serialVersionUID = 1L;

@@ -12,7 +12,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.lucas.loja.domain.Funcionario;
+import com.lucas.loja.entities.Funcionario;
 import com.lucas.loja.exception.funcionario.FuncionarioNotFoundException;
 import com.lucas.loja.repository.FuncionarioRepository;
 import com.lucas.loja.service.validator.ValidatorCalendar;

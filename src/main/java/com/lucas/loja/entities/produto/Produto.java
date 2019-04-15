@@ -1,4 +1,4 @@
-package com.lucas.loja.domain.produto;
+package com.lucas.loja.entities.produto;
 
 public abstract class Produto {
 

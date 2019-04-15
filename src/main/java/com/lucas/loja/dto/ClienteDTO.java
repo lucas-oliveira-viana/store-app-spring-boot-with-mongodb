@@ -2,8 +2,8 @@ package com.lucas.loja.dto;
 
 import java.util.Calendar;
 
-import com.lucas.loja.domain.Cliente;
-import com.lucas.loja.domain.Endereco;
+import com.lucas.loja.entities.Cliente;
+import com.lucas.loja.entities.Endereco;
 
 public class ClienteDTO {
 	
